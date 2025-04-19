@@ -1,15 +1,28 @@
+import MainLayout from "@/components/layouts/MainLayout";
+import Blog from "@/components/myComponents/Blog";
+import Home from "@/pages/Home";
+import Login from "@/pages/Login";
 import { createBrowserRouter } from "react-router-dom";
-
-import Home from "../pages/front/Home";
-import LoginPage from "../pages/Login";
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />,
+        element: (
+            <MainLayout>
+                <Home />
+            </MainLayout>
+        ),
     },
     {
         path: "/login",
-        element: <LoginPage />,
+        element: <Login />, // No layout for login
+    },
+    {
+        path: "/blogs",
+        element: (
+            <MainLayout>
+                <Blog />
+            </MainLayout>
+        ),
     },
 ]);
