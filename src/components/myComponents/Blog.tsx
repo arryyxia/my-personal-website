@@ -17,7 +17,7 @@ export default function Blog() {
             const data = await response.json();
             setBlogs(data.data);
             setTotalPages(data.last_page); // Assuming your API returns pagination metadata
-        } catch (error) {
+        } catch (error) { 
             console.error("Error fetching blog posts:", error);
         }
     };
