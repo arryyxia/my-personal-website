@@ -33,7 +33,7 @@ export default function Blog() {
     };
 
     useEffect(() => {
-        getBlog(currentPage); // Fetch blogs for the current page
+        getBlog(currentPage); // Fetch blogs for the current page 
         getFirstBlog(); // Fetch the first blog
     }, [currentPage]);
 
