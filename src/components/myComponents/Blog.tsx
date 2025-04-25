@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import * as api from "@/lib/apiHelpers";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 
 export default function Blog() {
@@ -49,6 +50,11 @@ export default function Blog() {
         }
     };
 
+    // {sudah mi cerita ryan sedikit tentang redflag ta kak jadi 
+    // saya mau tanya yakin ki tidak dekat sedekat itu lagi ke cowo}
+
+    // todo ambil keyboard dari mifta
+
     return (
         <>
             <div className="col-span-12 grid-cols-2 grid gap-4">
@@ -66,8 +72,16 @@ export default function Blog() {
             {blogs.map((blog: any) => (
                 <Card className="col-span-4" key={blog.id}>
                     <CardHeader>
-                        <p className="font-bold">{blog.title}</p>
+                        <p className="text-sm text-wrap">{blog.category.name}</p>
+                        <p className="text-lg font-bold text-wrap">{blog.title}</p>
                     </CardHeader>
+                    <CardContent>
+                        <p className="truncate w-full overflow-hidden">{blog.description}</p>
+                        <p className="truncate w-full overflow-hidden">{blog.description}</p>
+                        <p className="text-sm text-gray-500">
+                            {formatDate(blog.created_at)}{" "}
+                        </p>
+                    </CardContent>
                 </Card>
             ))}
             <div className="col-span-12 flex justify-center items-center mt-4 space-x-4">
@@ -75,7 +89,7 @@ export default function Blog() {
                     variant="outline"
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}>
-                    Previous
+                    <ArrowLeft></ArrowLeft>
                 </Button>
                 <p>
                     Page {currentPage} of {totalPages}
@@ -84,7 +98,7 @@ export default function Blog() {
                     variant="outline"
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}>
-                    Next
+                    <ArrowRight></ArrowRight>
                 </Button>
             </div>
         </>
