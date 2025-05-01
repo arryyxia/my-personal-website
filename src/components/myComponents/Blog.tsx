@@ -53,14 +53,20 @@ export default function Blog() {
     // {sudah mi cerita ryan sedikit tentang redflag ta kak jadi 
     // saya mau tanya yakin ki tidak dekat sedekat itu lagi ke cowo}
 
-    // todo ambil keyboard dari mifta
-
     return (
         <>
-            <div className="col-span-12 grid-cols-2 grid gap-4">
-                <Card className="col-span-1"></Card>
+            <div className="col-span-12 grid-cols-2 grid gap-4 items-center">
+                <Card className="col-span-1">
+                    <CardHeader>
+                        <img
+                            src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                            alt=""
+                            className="h-56 w-full object-cover"
+                        />
+                    </CardHeader>
+                </Card>
                 {firstBlog && (
-                    <div>
+                    <div className="col-span-1 flex flex-col justify-center items-start p-4">
                         <p className="font-bold">{firstBlog.title}</p>
                         <p>{firstBlog.description}</p>
                         <p className="text-sm text-gray-500">
@@ -72,12 +78,24 @@ export default function Blog() {
             {blogs.map((blog: any) => (
                 <Card className="col-span-4" key={blog.id}>
                     <CardHeader>
-                        <p className="text-sm text-wrap">{blog.category.name}</p>
-                        <p className="text-lg font-bold text-wrap">{blog.title}</p>
+                        <img
+                            src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                            alt=""
+                            className="h-56 w-full object-cover"
+                        />
+                        <div className="h-14">
+                            <p className="text-sm text-wrap">
+                                {blog.category.name}
+                            </p>
+                            <p className="text-lg font-bold text-wrap">
+                                {blog.title}
+                            </p>
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <p className="truncate w-full overflow-hidden">{blog.description}</p>
-                        <p className="truncate w-full overflow-hidden">{blog.description}</p>
+                        <p className="truncate w-full overflow-hidden">
+                            {blog.description}
+                        </p>
                         <p className="text-sm text-gray-500">
                             {formatDate(blog.created_at)}{" "}
                         </p>
