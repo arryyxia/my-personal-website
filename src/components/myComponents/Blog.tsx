@@ -4,21 +4,25 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
+import { Link } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Blog() {
     const [blogs, setBlogs] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [firstBlog, setFirstBlog] = useState<any>(null);
-    const [currentPage, setCurrentPage] = useState(1); // Track the current page
-    const [totalPages, setTotalPages] = useState(1); // Track the total number of pages
+    const [firstLoading, setFirstLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const getBlog = async (page: number) => {
         try {
             const response = await fetch(`${api.url}blog?page=${page}`);
             const data = await response.json();
             setBlogs(data.data);
-            setTotalPages(data.last_page); // Assuming your API returns pagination metadata
-        } catch (error) { 
+            setTotalPages(data.last_page);
+            setLoading(false);
+        } catch (error) {
             console.error("Error fetching blog posts:", error);
         }
     };
@@ -28,15 +32,11 @@ export default function Blog() {
             const response = await fetch(`${api.url}blog/first`);
             const data = await response.json();
             setFirstBlog(data);
+            setFirstLoading(false);
         } catch (error) {
             console.error("Error fetching first blog post:", error);
         }
     };
-
-    useEffect(() => {
-        getBlog(currentPage); // Fetch blogs for the current page 
-        getFirstBlog(); // Fetch the first blog
-    }, [currentPage]);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -50,8 +50,11 @@ export default function Blog() {
         }
     };
 
-    // {sudah mi cerita ryan sedikit tentang redflag ta kak jadi 
-    // saya mau tanya yakin ki tidak dekat sedekat itu lagi ke cowo}
+    useEffect(() => {
+        getBlog(currentPage);
+        getFirstBlog();
+    }, [currentPage]);
+
 
     return (
         <>
@@ -65,43 +68,73 @@ export default function Blog() {
                         />
                     </CardHeader>
                 </Card>
-                {firstBlog && (
+                {firstLoading && (
                     <div className="col-span-1 flex flex-col justify-center items-start p-4">
-                        <p className="font-bold">{firstBlog.title}</p>
+                        {/* <p className="font-bold">{firstBlog.title}</p>
                         <p>{firstBlog.description}</p>
                         <p className="text-sm text-gray-500">
                             {formatDate(firstBlog.created_at)}{" "}
-                        </p>
+                        </p> */}
+                    </div>
+                )}
+
+                {!firstLoading && firstBlog && (
+                    <div className="col-span-1 flex flex-col justify-center items-start p-4">
+                        <Link to={`/blog/${firstBlog.id}`} key={firstBlog.id}>
+                            <p className="font-bold">{firstBlog.title}</p>
+                            <p>{firstBlog.description}</p>
+                            <p className="text-sm text-gray-500">
+                                {formatDate(firstBlog.created_at)}{" "}
+                            </p>
+                        </Link>
                     </div>
                 )}
             </div>
-            {blogs.map((blog: any) => (
-                <Card className="col-span-4" key={blog.id}>
+
+            {loading ? (
+                <Card className="col-span-4">
                     <CardHeader>
-                        <img
-                            src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                            alt=""
-                            className="h-56 w-full object-cover"
-                        />
-                        <div className="h-14">
-                            <p className="text-sm text-wrap">
-                                {blog.category.name}
-                            </p>
-                            <p className="text-lg font-bold text-wrap">
-                                {blog.title}
-                            </p>
-                        </div>
+                        <Skeleton className="h-56 w-full rounded-xl" />
                     </CardHeader>
                     <CardContent>
-                        <p className="truncate w-full overflow-hidden">
-                            {blog.description}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                            {formatDate(blog.created_at)}{" "}
-                        </p>
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-[250px]" />
+                            <Skeleton className="h-4 w-[200px]" />
+                        </div>
                     </CardContent>
                 </Card>
-            ))}
+            ) : (
+                blogs.map((blog: any) => (
+                    <Card className="col-span-4" key={blog.id}>
+                        <CardHeader>
+                            <img
+                                src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                                alt=""
+                                className="h-56 w-full object-cover"
+                            />
+                            <div className="h-14">
+                                <p className="text-sm text-wrap">
+                                    {blog.category.name}
+                                </p>
+                                <p className="text-lg font-bold text-wrap">
+                                    {blog.title}
+                                </p>
+                            </div>
+                        </CardHeader>
+                        <Link to={`/blog/${blog.id}`} key={blog.id}>
+                            <CardContent>
+                                <p className="truncate w-full overflow-hidden">
+                                    {blog.description}
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    {formatDate(blog.created_at)}{" "}
+                                </p>
+                            </CardContent>
+                        </Link>
+                    </Card>
+                ))
+            )}
+
             <div className="col-span-12 flex justify-center items-center mt-4 space-x-4">
                 <Button
                     variant="outline"

@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />, // No layout for login
+        element: <Login />,
     },
     {
         path: "/blogs",
