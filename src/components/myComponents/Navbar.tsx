@@ -10,7 +10,7 @@ export default function Navbar() {
             <div className="fixed top-10 flex justify-between items-center w-11/12">
                 <ModeToggle></ModeToggle>
 
-                <Card className="p-4 backdrop-filter backdrop-blur-lg bg-opacity-30 border dark:border-[#1D202A] shadow-sm border-gray-300 ">
+                <Card className="p-4 backdrop-filter backdrop-blur-lg bg-opacity-30 border dark:border-[#1D202A] shadow-sm border-gray-300 z-50">
                     <CardContent>
                         <ul className="flex">
                             <li>

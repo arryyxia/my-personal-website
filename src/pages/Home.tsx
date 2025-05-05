@@ -3,6 +3,7 @@ import Blog from "../components/myComponents/Blog";
 import Hero from "@/components/myComponents/Hero";
 import About from "@/components/myComponents/About";
 import Header from "@/components/myComponents/Header";
+import Works from "@/components/myComponents/Works";
 
 export default function Home() {
 	
@@ -10,11 +11,16 @@ export default function Home() {
 		<>
 			<Hero />
 			<Container>
-				<Header title="About Me" useLink={false}></Header>
+				<Header title="About Me"></Header>
 				<About></About>
 			</Container>
 			<Container>
-				<Header title="Blogs" useLink={true}></Header>
+				<Header title="Works">
+				</Header>
+				<Works></Works>
+			</Container>
+			<Container>
+				<Header title="Blogs"></Header>
 				<Blog />
 			</Container>
 		</>
