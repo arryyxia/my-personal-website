@@ -16,7 +16,7 @@ export function Faqs() {
 				</p>
 			</CardHeader>
 			<CardContent>
-				<Accordion type="single" collapsible className="w-full">
+				<Accordion type="single" collapsible className="w-full" >
 					<AccordionItem value="item-1">
 						<AccordionTrigger>Is it accessible?</AccordionTrigger>
 						<AccordionContent>
